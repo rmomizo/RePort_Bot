@@ -14,16 +14,13 @@ bleach==1.4
 lxml==3.4.1
 nltk==2.0.4
 numpy==1.8.0
-oauthlib==0.7.2
 pyOpenSSL==0.15.1
-pyasn1==0.1.8
-pyasn1-modules==0.0.8
-pycparser==2.14
 python-dateutil==2.2
 pyzmq==14.3.1
 requests==2.7.0
 requests-oauthlib==0.5.0
 ```
+The RePort Bot's web scrapy engine runs on [scrapy](http://scrapy.org/). You may use the [scrapy documentation](http://doc.scrapy.org/en/latest/intro/tutorial.html) to extend the RePort Bot to include features such as link following.
 
 ## Procedure: Customize
 To customize the RePort Bot's scraper, open `crawler.py.` `crawler.py` contains the nuts and bolts of the scraper in the `class PortfolioSpider`. 
