@@ -28,7 +28,7 @@ class PortfolioSpider(scrapy.Spider):
         item['links'] = response.xpath('//a/@href').extract()
 
         yield item
-        ```
+```
 
 
 Notice all the domains and URLs that contain references to [ryan-omizo.com](https://ryan-omizo.com). Replace these domains and URLs the the site of your choice. For example:
