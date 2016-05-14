@@ -34,8 +34,6 @@ Notice all the domains and URLs that contain references to [ryan-omizo.com](http
 ```def start_requests(self):
         yield scrapy.Request('http://ryan-omizo.com/', self.parse)```
         
-        to
-        
 ```def start_requests(self):
         yield scrapy.Request('http://yourePortfolio.com/', self.parse)```
         
@@ -47,13 +45,13 @@ Once you have modified the settings of the `crawler.py`, you can run the RePort 
 1. Clone the RV respository to your computer.
 2. Enter the `spider` directory (`RV > portfolio > portfolio spider') in the RV repository.
 3. In Terminal or command line tools, enter the following command:
-```scrapy crawl portfolio -o items.json```
+`scrapy crawl portfolio -o items.json`
 This will activate the screen scraping program by calling `scrapy.` The results of the scrape will be saved in `items.json.`
 4. Import `ePortfolio.py` by running:
 ```import ePortfolio
 from ePortfolio import *```
 5. Analyze the scraped data and generate the h-index report with the following command:
-```make_report('items.json')```
+`make_report('items.json')`
 This will generate a `report.html` file that can be read in a browser.
 
 
