@@ -79,7 +79,7 @@ from ePortfolio import *
 ```
 5. Analyze the scraped data and generate the h-index report with the following command:
 `make_report('items.json')`
-This will generate a `report.html` file that can be read in a browser.
+This will generate a `report.html` file that can be read in a browser. To see a sample, visit [RePort Bot Report](http://rmomizo.github.io/RePort_Bot/report)
 
 
 
