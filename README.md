@@ -4,6 +4,27 @@ The RePort Bot scrapes textual content from ePortfolio pages and automatically r
 
 This repository hosts working code and sample outputs. However, this code is tailored to scrape content from the site [ryan-omizo.com](https://ryan-omizo.com). CSS and XPath selectors will vary across ePortfolios, so the links to [ryan-omizo.com](https://ryan-omizo.com) found in the RePort Bot spider and the `div` selectors used in ePortfolio.py will need to modified for use on other sites. 
 
+##Procedure: Dependences
+In order to run RePort Bot, you will need to install the following Python packages to your computer or virtual environment:
+```python
+pip
+Scrapy==1.1.0rc3
+beautifulsoup4==4.3.2
+bleach==1.4
+lxml==3.4.1
+nltk==2.0.4
+numpy==1.8.0
+oauthlib==0.7.2
+pyOpenSSL==0.15.1
+pyasn1==0.1.8
+pyasn1-modules==0.0.8
+pycparser==2.14
+python-dateutil==2.2
+pyzmq==14.3.1
+requests==2.7.0
+requests-oauthlib==0.5.0
+```
+
 ## Procedure: Customize
 To customize the RePort Bot's scraper, open `crawler.py.` `crawler.py` contains the nuts and bolts of the scraper in the `class PortfolioSpider`. 
 
