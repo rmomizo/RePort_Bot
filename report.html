@@ -198,7 +198,8 @@ function position() {
 
 						.text(function (d, i) {
 							if (d.value > 0) {
-								return d.value, ilabels[i]
+								return d.value
+								return ilabels[i]
 							}
 							else {
 								return
