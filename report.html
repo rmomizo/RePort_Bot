@@ -198,8 +198,7 @@ function position() {
 
 						.text(function (d, i) {
 							if (d.value > 0) {
-								return d.value
-								return ilabels[i]
+								return String(d.value) + '<br>' + String(ilabels[i])
 							}
 							else {
 								return
