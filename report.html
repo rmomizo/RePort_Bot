@@ -193,12 +193,12 @@ function position() {
 						.style("z-index", 10)
 						.attr("font-family", "Oxygen")
 						.attr("fill", "#fff")
-						.attr("font-size", 24)
+						.attr("font-size", 16)
 
 
 						.text(function (d, i) {
 							if (d.value > 0) {
-								return String(d.value) + "<br>" + String(ilabels[i])
+								return String(d.value) + "<br/>" + String(ilabels[i])
 							}
 							else {
 								return
