@@ -120,7 +120,8 @@ function position() {
 	var wd = ($(window).width() * .8)/2.6;
 			var hd = ($(window).width() * .8)/2.6;
 
-			var idata = ['0.22', '0.63', '0.15'];
+			var idata = ['0.22', '0.63', '0.7', '0.8'];
+			var ilabels = ['i', 'my', 'our', 'we'];
 			var outerRadius = wd / 2;
 
 			//Set innerRadius value to 0 for standard pie chart
@@ -135,7 +136,7 @@ function position() {
 			//Custom color range; replace hex codes in array to revise colors
 			//Colors will be selected in sequentially in current functions
 			var color = d3.scale.ordinal()
-			//i, my, we, our
+			//i, my, our, we
 				.range(["#FF92E4 ", "#61CCCB ", "#FFD047", "#B23C7A"]);
 
 			//Create SVG element
@@ -195,9 +196,9 @@ function position() {
 						.attr("font-size", 36)
 
 
-						.text(function (d) {
+						.text(function (d, i) {
 							if (d.value > 0) {
-								return d.value
+								return d.value, ilabels[i]
 							}
 							else {
 								return
