@@ -12,16 +12,8 @@ from nltk.tokenize.punkt import PunktSentenceTokenizer
 from nltk.stem.wordnet import WordNetLemmatizer
 from hindex import *
 from collections import defaultdict
-import urllib2
 from urllib2 import *
-from urllib2 import URLError, HTTPError
-from selenium import webdriver
-import selenium
-from selenium.common.exceptions import *
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
+
 
 
 stopwords = ['im', '...', 'also', 'mr', 'mrs', 'when', 'me', 'myself', 'ours', 'ourselves', 'that',
@@ -35,7 +27,7 @@ stopwords = ['im', '...', 'also', 'mr', 'mrs', 'when', 'me', 'myself', 'ours', '
              'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', "'", '"', 'just', 'don', 'now',
              "they're", "'re", "you're", "we're", "'ve", "'s", 'em', 'dy', "'ve", '.', ',', 'th', 'us',
              'wasnt',
-             'isnt', ')', '(', '..']
+             'isnt', ')', '(', '..', 'i.e.', 'googleanalytics']
 
 def flatten_list(somelist):
         if any(isinstance(el, list) for el in somelist) == False:
@@ -180,13 +172,15 @@ def make_report(filename):
     tree = dict(data)
 
     #I voice collocations
+
     i_col, i_col_tri = i_collocations(combined_pages.lower())
     i_s = []
     for i in range(len(i_col_tri)):
         i_s.append(i_col_tri[i][0])
 
     i_c = dict(Counter(i_s))
-    i_cs = {}
+    i_cs = {'i':0, 'my':0, 'our':0, 'we':0}
+
     for key, value in i_c.items():
         try:
             i_cs[key] = '{0:.2f}'.format(value/len(i_s))
@@ -204,7 +198,7 @@ def make_report(filename):
         y_s.append(you_col_tri[i][0])
 
     y_c = dict(Counter(y_s))
-    y_cs = {}
+    y_cs = {'you':0, 'your':0}
     for key, value in y_c.items():
         try:
             y_cs[key] = value(len(y_s))
@@ -397,7 +391,9 @@ function position() {
 	var wd = ($(window).width() * .8)/2.6;
 			var hd = ($(window).width() * .8)/2.6;
 
-			var idata = ['0.22', '0.63', '0.15'];
+			var idata =""" + str([i_cs['i'], i_cs['my'],i_cs['our'],i_cs['we']])  + """;
+			var ilabels = ['i', 'my', 'our', 'we'];
+
 			var outerRadius = wd / 2;
 
 			//Set innerRadius value to 0 for standard pie chart
@@ -412,7 +408,7 @@ function position() {
 			//Custom color range; replace hex codes in array to revise colors
 			//Colors will be selected in sequentially in current functions
 			var color = d3.scale.ordinal()
-			//i, my, we, our
+			//i, my, our, we
 				.range(["#FF92E4 ", "#61CCCB ", "#FFD047", "#B23C7A"]);
 
 			//Create SVG element
@@ -421,68 +417,82 @@ function position() {
 					.attr("width", wd)
 					.attr("height", hd);
 
-			//Set up groups
-			var arcs = svg.selectAll("g.arc")
-				.data(pie(idata))
-				.enter()
-
-				.append("g")
-				.attr("class", "arc")
-
-				.attr("transform", "translate(" + outerRadius + "," + outerRadius + ")");
-
-			//Draw arc paths
-			arcs.append("path")
-
-			    .attr("fill", function(d,i) {
-			    	return color(i);
-			    })
-			    //Animated rendering
-			    .transition()
-			    .duration(500)
-  				.attrTween('d', function(d) {
-       				var i = d3.interpolate(d.startAngle, d.endAngle);
-       			return function(t) {
-           		d.endAngle = i(t);
-         		return arc(d);
-       				}
-       				});
-
-			//Labels
-			arcs.append("text")
-
-			    .attr("transform", function(d) {
-			    	return "translate(" + arc.centroid(d) + ")";
-			    })
-			    .attr("text-anchor", "middle")
-			    .style("z-index", 10)
-			    .attr("font-family", "Oxygen")
-			    .attr("fill", "#fff")
-			    .attr("font-size", 12)
-
-
-			    .text(function(d) {
-			    	if(d.value > 0) {
-			    	return d.value}
-			    	else { return }
-
-			    });
-
-        arcs.append("text")
-				.attr("x", 0)
-				.attr("y", 22)
+			if (eval(idata.join("+")) == 0) {
+			svg.append("text")
+				.attr("x", 197)
+				.attr("y", 197)
 				.attr("text-anchor", "middle")
 			    .attr("font-family", "Oxygen")
 			    .attr("fill", "#000")
-			    .attr("font-size", 100)
-			    .text("%");
+			    .attr("font-size", 150)
+			    .text("0%");
+		} else {
+				var arcs = svg.selectAll("g.arc")
+						.data(pie(idata))
+						.enter()
+
+						.append("g")
+						.attr("class", "arc")
+
+						.attr("transform", "translate(" + outerRadius + "," + outerRadius + ")");
+
+				//Draw arc paths
+				arcs.append("path")
+
+						.attr("fill", function (d, i) {
+							return color(i);
+						})
+						//Animated rendering
+						.transition()
+						.duration(500)
+						.attrTween('d', function (d) {
+							var i = d3.interpolate(d.startAngle, d.endAngle);
+							return function (t) {
+								d.endAngle = i(t);
+								return arc(d);
+							}
+						});
+
+				//Labels
+				arcs.append("text")
+
+						.attr("transform", function (d) {
+							return "translate(" + arc.centroid(d) + ")";
+						})
+						.attr("text-anchor", "middle")
+						.style("z-index", 10)
+						.attr("font-family", "Oxygen")
+						.attr("fill", "#fff")
+						.attr("font-size", 16)
+
+
+						.text(function (d, i) {
+							if (d.value > 0) {
+								return String(ilabels[i]) + " : " + String(d.value)
+							}
+							else {
+								return
+							}
+
+						});
+
+				arcs.append("text")
+						.attr("x", 0)
+						.attr("y", 22)
+						.attr("text-anchor", "middle")
+						.attr("font-family", "Oxygen")
+						.attr("fill", "#000")
+						.attr("font-size", 100)
+						.text("%");
+			}
 
 
 //Width and height for doughnut
 			var we = ($(window).width() * .8)/2.6;
 			var he = ($(window).width() * .8)/2.6;
 
-			var ydata = [0.4, 0.6];
+			var ydata =""" + str([y_cs['you'], y_cs['your']])  + """;
+			var ylabels = ['you', 'your'];
 
 			var outerRadiusY = we / 2;
 
@@ -502,60 +512,75 @@ function position() {
 					.attr("height", he);
 
 			//Set up groups
-			var arcsY = svgY.selectAll("g.arcY")
-				.data(pieY(ydata))
-				.enter()
-				.append("g")
-				.attr("class", "arc")
-				.attr("transform", "translate(" + outerRadiusY + "," + outerRadiusY + ")");
 
-			//Draw arc paths
-			arcsY.append("path")
-			    .attr("fill", function(d,i) {
-			    	return color(i);
-			    })
-
-			    //Animated rendering
-			    .transition()
-			    .duration(500)
-  				.attrTween('d', function(d) {
-       				var i = d3.interpolate(d.startAngle, d.endAngle);
-       			return function(t) {
-           		d.endAngle = i(t);
-         		return arcY(d);
-       				}
-       				})
-
-       			//Non-animated rendering
-       			//.attr("d", arc)
-			   ;
-
-			//Labels
-			arcsY.append("text")
-			    .attr("transform", function(d) {
-			    	return "translate(" + arc.centroid(d) + ")";
-			    })
-			    .attr("text-anchor", "middle")
-			    .style("z-index", 10)
-			    .attr("font-family", "Oxygen")
-			    .attr("fill", "#fff")
-			    .attr("font-size", 12)
-			    .text(function(d) {
-			    	if(d.value > 0) {
-			    	return d.value}
-			    	else { return }
-			    });
-
-			//Percentage label
-			arcsY.append("text")
-				.attr("x", 0)
-				.attr("y", 22)
+			if (eval(ydata.join("+")) == 0) {
+			svgY.append("text")
+				.attr("x", 197)
+				.attr("y", 197)
 				.attr("text-anchor", "middle")
 			    .attr("font-family", "Oxygen")
 			    .attr("fill", "#000")
-			    .attr("font-size", 100)
-			    .text("%");
+			    .attr("font-size", 150)
+			    .text("0%");
+		} else {
+			var arcsY = svgY.selectAll("g.arcY")
+					.data(pieY(ydata))
+					.enter()
+					.append("g")
+					.attr("class", "arc")
+					.attr("transform", "translate(" + outerRadiusY + "," + outerRadiusY + ")");
 
+
+			//Draw arc paths
+			arcsY.append("path")
+					.attr("fill", function (d, i) {
+						return color(i);
+					})
+
+					//Animated rendering
+					.transition()
+					.duration(500)
+					.attrTween('d', function (d) {
+						var i = d3.interpolate(d.startAngle, d.endAngle);
+						return function (t) {
+							d.endAngle = i(t);
+							return arcY(d);
+						}
+					})
+
+				//Non-animated rendering
+				//.attr("d", arc)
+			;
+
+			//Labels
+			arcsY.append("text")
+					.attr("transform", function (d) {
+						return "translate(" + arc.centroid(d) + ")";
+					})
+					.attr("text-anchor", "middle")
+					.style("z-index", 10)
+					.attr("font-family", "Oxygen")
+					.attr("fill", "#fff")
+					.attr("font-size", 12)
+					.text(function (d) {
+						if (d.value > 0) {
+							return d.value
+						}
+						else {
+							return
+						}
+					});
+
+			//Percentage label
+			arcsY.append("text")
+					.attr("x", 0)
+					.attr("y", 22)
+					.attr("text-anchor", "middle")
+					.attr("font-family", "Oxygen")
+					.attr("fill", "#000")
+					.attr("font-size", 100)
+					.text("%");
+		}
 
         </script> """)
         myFile.close()
