@@ -120,8 +120,9 @@ function position() {
 	var wd = ($(window).width() * .8)/2.6;
 			var hd = ($(window).width() * .8)/2.6;
 
-			var idata = ['0.22', '0.63', '0.7', '0.8'];
+			var idata =['0.43', '0.09', '0.13', '0.36'];
 			var ilabels = ['i', 'my', 'our', 'we'];
+
 			var outerRadius = wd / 2;
 
 			//Set innerRadius value to 0 for standard pie chart
@@ -145,9 +146,7 @@ function position() {
 					.attr("width", wd)
 					.attr("height", hd);
 
-			//Set up groups
-
-			if (idata.length == 0) {
+			if (eval(idata.join("+")) == 0) {
 			svg.append("text")
 				.attr("x", 197)
 				.attr("y", 197)
@@ -198,7 +197,7 @@ function position() {
 
 						.text(function (d, i) {
 							if (d.value > 0) {
-								return String(ilabels[i]) + " : " + String(d.value)  
+								return String(ilabels[i]) + " : " + String(d.value)
 							}
 							else {
 								return
@@ -216,11 +215,13 @@ function position() {
 						.text("%");
 			}
 
+
 //Width and height for doughnut
 			var we = ($(window).width() * .8)/2.6;
 			var he = ($(window).width() * .8)/2.6;
 
-			var ydata = [];
+			var ydata =[0, 0];
+			var ylabels = ['you', 'your'];
 
 			var outerRadiusY = we / 2;
 
@@ -241,7 +242,7 @@ function position() {
 
 			//Set up groups
 
-		if (ydata.length == 0) {
+			if (eval(ydata.join("+")) == 0) {
 			svgY.append("text")
 				.attr("x", 197)
 				.attr("y", 197)
