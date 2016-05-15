@@ -196,9 +196,9 @@ function position() {
 						.attr("font-size", 16)
 
 
-						.html(function (d, i) {
+						.text(function (d, i) {
 							if (d.value > 0) {
-								return "<p>" + </p>String(ilabels[i]) + "</p><p>" + String(d.value) + "</p>" 
+								return String(ilabels[i]) + " : " + String(d.value)  
 							}
 							else {
 								return
