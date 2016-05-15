@@ -120,7 +120,9 @@ function position() {
 	var wd = ($(window).width() * .8)/2.6;
 			var hd = ($(window).width() * .8)/2.6;
 
-			var idata = ['0.22', '0.63', '0.15'];
+			var idata = ['0.22', '0.63', '0.7', '0.8'];
+		var ilabels = ['i', 'my', 'our', we'];
+
 			var outerRadius = wd / 2;
 
 			//Set innerRadius value to 0 for standard pie chart
@@ -135,7 +137,7 @@ function position() {
 			//Custom color range; replace hex codes in array to revise colors
 			//Colors will be selected in sequentially in current functions
 			var color = d3.scale.ordinal()
-			//i, my, we, our
+			//i, my, our, we
 				.range(["#FF92E4 ", "#61CCCB ", "#FFD047", "#B23C7A"]);
 
 			//Create SVG element
@@ -145,65 +147,56 @@ function position() {
 					.attr("height", hd);
 
 			//Set up groups
+			var arcs = svg.selectAll("g.arc")
+				.data(pie(idata))
+				.enter()
 
-			if (idata.length == 0) {
-			svg.append("text")
-				.attr("x", 197)
-				.attr("y", 197)
-				.attr("text-anchor", "middle")
+				.append("g")
+				.attr("class", "arc")
+
+				.attr("transform", "translate(" + outerRadius + "," + outerRadius + ")");
+
+			//Draw arc paths
+			arcs.append("path")
+
+			    .attr("fill", function(d,i) {
+			    	return color(i);
+			    })
+			    //Animated rendering
+			    .transition()
+			    .duration(500)
+  				.attrTween('d', function(d) {
+       				var i = d3.interpolate(d.startAngle, d.endAngle);
+       			return function(t) {
+           		d.endAngle = i(t);
+         		return arc(d);
+       				}
+       				});
+
+			//Labels
+			arcs.append("text")
+
+			    .attr("transform", function(d) {
+			    	return "translate(" + arc.centroid(d) + ")";
+			    })
+			    .attr("text-anchor", "middle")
+			    .style("z-index", 10)
 			    .attr("font-family", "Oxygen")
-			    .attr("fill", "#000")
-			    .attr("font-size", 150)
-			    .text("0%");
-		} else {
-				var arcs = svg.selectAll("g.arc")
-						.data(pie(idata))
-						.enter()
-
-						.append("g")
-						.attr("class", "arc")
-
-						.attr("transform", "translate(" + outerRadius + "," + outerRadius + ")");
-
-				//Draw arc paths
-				arcs.append("path")
-
-						.attr("fill", function (d, i) {
-							return color(i);
-						})
-						//Animated rendering
-						.transition()
-						.duration(500)
-						.attrTween('d', function (d) {
-							var i = d3.interpolate(d.startAngle, d.endAngle);
-							return function (t) {
-								d.endAngle = i(t);
-								return arc(d);
-							}
-						});
-
-				//Labels
-				arcs.append("text")
-
-						.attr("transform", function (d) {
-							return "translate(" + arc.centroid(d) + ")";
-						})
-						.attr("text-anchor", "middle")
-						.style("z-index", 10)
-						.attr("font-family", "Oxygen")
-						.attr("fill", "#fff")
-						.attr("font-size", 36)
+			    .attr("fill", "#fff")
+			    .attr("font-size", 24)
 
 
-						.text(function (d) {
-							if (d.value > 0) {
-								return d.value
-							}
-							else {
-								return
-							}
+			    .text(function(d) {
+			    	if(d.value > 0) {
+			    	return d.value}
+			    	else { return }
 
-						});
+			    .text(function(d, i) {
+			    	if(d.value > 0) {
+			    	return ilabels[i}
+			    	else { return }
+
+			    });
 
 				arcs.append("text")
 						.attr("x", 0)
