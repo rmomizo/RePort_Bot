@@ -8,30 +8,7 @@
 <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script><link rel="stylesheet" type="text/css" href="report.css">  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
   <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script>
-  $(function() {
-    $( ".radio" ).buttonset();
-  });
-
-
-  $(document).ready(function() {
-  $("#i-box").css("visibility", "visible");
-    $("input[name$='radio']").click(function() {
-        var test = $(this).val();
-
-        $(".voice-info").css("visibility", "hidden");
-        $("#" + test).css("visibility", "visible");
-    });
-
-    $("#you-box").css("visibility", "visible");
-    $("input[name$='radioy']").click(function() {
-        var testy = $(this).val();
-
-        $(".voice-info-y").css("visibility", "hidden");
-        $("#" + testy).css("visibility", "visible");
-    });
-});
-  </script>
+  
   </head>
 <body>
 <div id="container">
@@ -44,37 +21,7 @@
 <h3>Average Word Count Per Page: 793.0</h3>
 </div>
 
-<div id="doughnut-i">
-	 <div class="donut">
-    	<form>
-  			<div class="radio">
-    		<input type="radio" id="radio1" value="i-box" name="radio"><label for="radio1" checked="checked">I</label>
-    		<input type="radio" id="radio2" value="my-box" name="radio"><label for="radio2">My</label>
-    		<input type="radio" id="radio3" value="we-box" name="radio"><label for="radio3">We</label>
-      		<input type="radio" id="radio4" value="our-box" name="radio"><label for="radio4">Our</label>
-  		</div>
-		</form>
 
-    <div id="i-box" class="voice-info"><ul><li>('i', 'am', 'an')</li><li>('i', 'teach', 'courses')</li><li>('i', 'am', 'also')</li><li>('i', 'am', 'currently')</li><li>('i', 'received', 'my')</li><li>('i', 'have', 'focused')</li><li>('i', 'investigated', 'how')</li><li>('i', 'am', 'involved')</li><li>('i', 'build', 'web')</li><li>('i', ',', 's')</li><li>('i', "['", 'googleanalyticsobject')</li><li>('i', '[', 'r')</li><li>('i', '[', 'r')</li><li>('i', '[', 'r')</li><li>('i', '[', 'r')</li><li>('i', '[', 'r')</li><li>('i', 'believe', 'that')</li><li>('i', 'would', 'call')</li><li>('i', '.', 'e')</li><li>('i', '.', 'e')</li></ul></div><div id="my-box" class="voice-info"><ul><li>('my', 'research', 'interests')</li><li>('my', 'phd', '.')</li><li>('my', 'research', 'has')</li><li>('my', 'current', 'capacity')</li></ul></div>
-    <div id="we-box" class="voice-info"><ul><li>('we', 'learn', 'and')</li><li>('we', 'must', 'write')</li><li>('we', 'must', 'also')</li><li>('we', 'automatically', 'processed')</li><li>('we', 'screen', 'scraped')</li><li>('we', 'then', 'tokenize')</li><li>('we', 'tagged', 'all')</li><li>('we', 'narrowed', 'our')</li><li>('we', 'do', 'see')</li><li>('we', 'configured', 'the')</li><li>('we', 'have', 'encountered')</li><li>('we', 'consider', 'this')</li><li>('we', 'then', 'pass')</li><li>('we', 'can', 'consider')</li><li>('we', 'may', 'consider')</li><li>('we', 'noted', 'in')</li><li>('we', 'convert', 'texts')</li></ul></div>
-    <div id="our-box" class="voice-info"><ul><li>('our', 'citational', 'coding')</li><li>('our', 'coding', 'scheme')</li><li>('our', 'selection', 'to')</li><li>('our', 'thin', 'definition')</li><li>('our', 'coding', 'scheme')</li><li>('our', 'work', 'is')</li></ul></div>
-    	</div>
-</div>
-
-    <div id="doughnut-y">
-    <div class="donut">
-    <form>
-  		<div class="radio">
-    		<input type="radio" id="radio1y" name="radioy" value="you-box"><label for="radio1y">You</label>
-    		<input type="radio" id="radio2y" name="radioy" value="your-box" checked="checked"><label
-    		for="radio2y">Your</label>
-
-  		</div>
-	</form>
-    	<div id="you-box" class="voice-info-y">[]</div>
-    	<div id="your-box" class="voice-info-y">[]</div>
-    	</div>
-	</div>
 <h2>h-Point for total pages http://ryan-omizo.com/ ('first', (13, 13))</h2><section class="tree-map"></section><h2>ryan-omizo.com | </h2><h2>h-point (u'writing', (2, 2))<div id="page-tree0"></div><h2>Research</h2><h2>h-point (u'graph', (2, 2))<div id="page-tree1"></div><h2>Teaching</h2><h2>h-point (u'writer', (3, 3))<div id="page-tree2"></div><h2>CV</h2><h2>h-point (u'writing', (4, 5), -1)<div id="page-tree3"></div><h2>ryan-omizo.com | </h2><h2>h-point (u'index', (10, 11), -1)<div id="page-tree4"></div><div id="doughnut-i"><div id="i-box"></div><div id="my-box"></div><div id="we-box"></div><div id="our-box"></div></div><div id="doughnut-y"><div id="you-box"></div><div id="your-box"></div></div>
 <div class="spacer"></div>
         <script>
