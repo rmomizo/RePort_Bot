@@ -1,4 +1,4 @@
-# portfolio_bot
+# RePort_Bot
 
 The RePort Bot scrapes textual content from ePortfolio pages and automatically returns analyis of these pages that coheres around the concept of "rhetorical velocity." 
 
