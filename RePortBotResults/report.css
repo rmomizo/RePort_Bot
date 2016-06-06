@@ -35,35 +35,7 @@ body {background:#ffffff; font-family: Century Gothic, Arial, sans-serif;}
 
     }
 
-    #doughnut-i, #doughnut-y {
-        position:relative;
-        width:93%;
-        margin-bottom:5em;
-        min-height:400px;
-    }
-
-     #doughnut-i > svg, #doughnut-y > svg {
-         position:absolute;
-        width:50%;
-         left:0;
-         border-right:5px solid #CCC;
-
-    }
-
-#i-box, #my-box, #we-box, #our-box, #you-box, #your-box {
-
-    position:absolute;
-    width:94%;
-    height:300px;
-    top:75px;
-   left:0;
-    overflow-y:scroll;
-    font-size:1.25em;
-
-    margin-bottom:3em;
-    visibility:hidden;
-    padding:3%;
-}
+   
 
 .spacer {
         height:300px;
@@ -73,32 +45,21 @@ body {background:#ffffff; font-family: Century Gothic, Arial, sans-serif;}
         font-size:1.25em;
 }
 
-
-
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
-    background:#000;
-    color:#fff;
-}
-
-.ui-widget {
-    font-family: Open Sans;
-}
-
-.donut form {
-   margin:0 auto;
-    position:relative;
+  .ui-tooltip, .arrow:after {
+    background: #fff;
+    border: 2px solid white;
+  }
+  .ui-tooltip {
+    padding: 10px 20px;
+    color: #000;
+    border-radius: 20px;
+    width:10%;
     text-align:center;
-    z-index:100;
-}
-.radio {
-        width:auto;
-}
+    font: bold 14px "Helvetica Neue", Sans-Serif;
+    box-shadow: 0 0 7px black;
+  }
+ 
 
-.donut {
-    position:relative;
-    float:right;
-    width:43%;
-}
 
 #basic-stats {
         margin-bottom:5em;
