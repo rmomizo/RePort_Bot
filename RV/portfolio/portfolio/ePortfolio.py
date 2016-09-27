@@ -77,32 +77,7 @@ def parse_json(filename):
     return links, spg, start_url
 
 
-def i_collocations(raw):
 
-    tokenizer = WordPunctTokenizer()
-    tokens = tokenizer.tokenize(raw)
-
-    bigrams = [(tokens[i], tokens[i +1]) for i in range(len(tokens)-1)]
-    collocations = [(t1, t2) for (t1, t2) in bigrams if t1 == "i" or t1 == 'we' or t1 == 'my' or t1 == "our"]
-
-    trigrams = [(tokens[i], tokens[i +1], tokens[i+2]) for i in range(len(tokens)-2)]
-    trilocations = [(t1, t2, t3) for (t1, t2, t3) in trigrams if t1 == "i" or t1 == 'we' or t1 == 'my'
-                    or t1 == "our"]
-
-    return collocations, trilocations
-
-def you_collocations(raw):
-
-    tokenizer = WordPunctTokenizer()
-    tokens = tokenizer.tokenize(raw)
-
-    bigrams = [(tokens[i], tokens[i +1]) for i in range(len(tokens)-1)]
-    collocations = [(t1, t2) for (t1, t2) in bigrams if t1 == "you" or t1 == 'your']
-
-    trigrams = [(tokens[i], tokens[i +1], tokens[i+2]) for i in range(len(tokens)-2)]
-    trilocations = [(t1, t2, t3) for (t1, t2, t3) in trigrams if t1 == "you" or t1 == 'your']
-
-    return collocations, trilocations
 
 def get_key(item):
     return item[1][1]
