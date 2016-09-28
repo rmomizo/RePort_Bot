@@ -65,7 +65,7 @@ Once you have adjusted the URLs to match the site of your choice, you will need 
 Once you have modified the settings of the `crawler.py`, you can run the RePort Bot from your shell or Python interpreter. Because the functionality of the RePort Bot is distributed across several Python files, you will be tasked with manually implementing key points of the pipeline. 
 
 1. Clone the RV respository to your computer.
-2. Enter the `spider` directory (`RV > portfolio > portfolio spider') in the RV repository.
+2. Enter the `spider` directory (`RV > portfolio > portfolio > spiders') in the RV repository.
 3. In Terminal or command line tools, enter the following command:
 `scrapy crawl portfolio -o items.json`
 This will activate the screen scraping program by calling `scrapy.` The results of the scrape will be saved in `items.json.`
