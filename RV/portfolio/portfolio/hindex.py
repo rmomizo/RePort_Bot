@@ -1,7 +1,5 @@
 from __future__ import division
 import itertools
-import matplotlib.pyplot as plt
-from matplotlib.pyplot import savefig
 import random
 from random import shuffle
 from collections import Counter
