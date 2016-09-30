@@ -12,16 +12,8 @@ from nltk.tokenize.punkt import PunktSentenceTokenizer
 from nltk.stem.wordnet import WordNetLemmatizer
 from hindex import *
 from collections import defaultdict
-import urllib2
 from urllib2 import *
-from urllib2 import URLError, HTTPError
-from selenium import webdriver
-import selenium
-from selenium.common.exceptions import *
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
+
 
 
 stopwords = ['im', '...', 'also', 'mr', 'mrs', 'when', 'me', 'myself', 'ours', 'ourselves', 'that',
@@ -35,7 +27,7 @@ stopwords = ['im', '...', 'also', 'mr', 'mrs', 'when', 'me', 'myself', 'ours', '
              'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', "'", '"', 'just', 'don', 'now',
              "they're", "'re", "you're", "we're", "'ve", "'s", 'em', 'dy', "'ve", '.', ',', 'th', 'us',
              'wasnt',
-             'isnt', ')', '(', '..']
+             'isnt', ')', '(', '..', 'i.e.', 'googleanalytics']
 
 def flatten_list(somelist):
         if any(isinstance(el, list) for el in somelist) == False:
@@ -76,13 +68,8 @@ def parse_json(filename):
     spg = [(s[0], s[1].encode('ascii', errors='ignore')) for s in spages]
     return links, spg, start_url
 
-
-
-
 def get_key(item):
     return item[1][1]
-
-
 
 def h_report(raw):
     p = preprocess(raw)
@@ -154,43 +141,8 @@ def make_report(filename):
     data["children"] = children
     tree = dict(data)
 
-    #I voice collocations
-    i_col, i_col_tri = i_collocations(combined_pages.lower())
-    i_s = []
-    for i in range(len(i_col_tri)):
-        i_s.append(i_col_tri[i][0])
 
-    i_c = dict(Counter(i_s))
-    i_cs = {}
-    for key, value in i_c.items():
-        try:
-            i_cs[key] = '{0:.2f}'.format(value/len(i_s))
-        except ZeroDivisionError:
-            i_cs["Null"] = 0
-
-    i_content = defaultdict(list)
-    for (x,y,z) in i_col_tri:
-        i_content[x].append((x,y,z))
-
-    #You voice collocations
-    you_col, you_col_tri = you_collocations(combined_pages.lower())
-    y_s = []
-    for i in range(len(you_col_tri)):
-        y_s.append(you_col_tri[i][0])
-
-    y_c = dict(Counter(y_s))
-    y_cs = {}
-    for key, value in y_c.items():
-        try:
-            y_cs[key] = value(len(y_s))
-        except ZeroDivisionError:
-            y_cs['Null'] = 0
-
-    you_content = defaultdict(list)
-    for (x,y,z) in you_col_tri:
-        you_content[x].append((x,y,z))
-
-    with open('results2.html', 'w') as myFile:
+    with open('results3.html', 'w') as myFile:
         myFile.write('<!doctype html>\n')
         myFile.write('<html>\n')
         myFile.write('<head>\n')
@@ -202,32 +154,7 @@ def make_report(filename):
         myFile.write('<link rel="stylesheet" type="text/css" href="report.css">')
         myFile.write("""  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script>
-  $(function() {
-    $( ".radio" ).buttonset();
-  });
-
-
-  $(document).ready(function() {
-  $("#i-box").css("visibility", "visible");
-    $("input[name$='radio']").click(function() {
-        var test = $(this).val();
-
-        $(".voice-info").css("visibility", "hidden");
-        $("#" + test).css("visibility", "visible");
-    });
-
-    $("#you-box").css("visibility", "visible");
-    $("input[name$='radioy']").click(function() {
-        var testy = $(this).val();
-
-        $(".voice-info-y").css("visibility", "hidden");
-        $("#" + testy).css("visibility", "visible");
-    });
-});
-  </script>
-  """)
+  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script> """)
 
         myFile.write('</head>\n')
         myFile.write('<body>\n')
@@ -235,99 +162,32 @@ def make_report(filename):
         myFile.write('<header>\n')
         myFile.write('<h1>R<em>ePort</em> Results:' + str(start_url) + '</h1></header>')
 
-
-
         myFile.write("""
         <div id="basic-stats">
 <h1>Descriptive Statistics</h1>
 <h3>Portfolio Word Count: """ + pwc + """</h3>
 <h3>Portfolio Sentence Count: """ + psc + """</h3>
 <h3>Average Word Count Per Page: """ + awc + """</h3>
-</div>
+</div>""")
 
-<div id="doughnut-i">
-	 <div class="donut">
-    	<form>
-  			<div class="radio">
-    		<input type="radio" id="radio1" value="i-box" name="radio"><label for="radio1" checked="checked">I</label>
-    		<input type="radio" id="radio2" value="my-box" name="radio"><label for="radio2">My</label>
-    		<input type="radio" id="radio3" value="we-box" name="radio"><label for="radio3">We</label>
-      		<input type="radio" id="radio4" value="our-box" name="radio"><label for="radio4">Our</label>
-  		</div>
-		</form>
 
-    <div id="i-box" class="voice-info">""")
-
-        myFile.write("""<ul>""")
-        for item in i_content['i']:
-            myFile.write("""<li>""" + str(item) + """</li>""")
-
-        myFile.write("""</ul></div><div id="my-box" class="voice-info">""")
-
-        myFile.write("""<ul>""")
-        for item in i_content['my']:
-            myFile.write("""<li>""" + str(item) + """</li>""")
-
-        myFile.write("""</ul></div>
-    <div id="we-box" class="voice-info">""")
-
-        myFile.write("<ul>")
-        for item in i_content['we']:
-            myFile.write("""<li>""" + str(item) + """</li>""")
-
-        myFile.write("""</ul></div>
-    <div id="our-box" class="voice-info">""")
-
-        myFile.write("""<ul>""")
-        for item in i_content['our']:
-            myFile.write("""<li>""" + str(item) + """</li>""")
-
-        myFile.write("""</ul></div>
-    	</div>
-</div>
-
-    <div id="doughnut-y">
-    <div class="donut">
-    <form>
-  		<div class="radio">
-    		<input type="radio" id="radio1y" name="radioy" value="you-box"><label for="radio1y">You</label>
-    		<input type="radio" id="radio2y" name="radioy" value="your-box" checked="checked"><label
-    		for="radio2y">Your</label>
-
-  		</div>
-	</form>
-    	<div id="you-box" class="voice-info-y">""" + str(you_content['you']) + """</div>
-    	<div id="your-box" class="voice-info-y">""" + str(you_content['your']) + """</div>
-    	</div>
-	</div>
-""")
         myFile.write('<h2>h-Point for total pages ' + str(start_url) + ' ' + str((t_h[0].encode('ascii',
-                                                                                              errors='ignore'), t_h[1]
-                                                                     )) + '</h2>')
+                                                                                              errors='ignore'), t_h[1])) + '</h2>')
         myFile.write('<section class="tree-map"></section>')
         myFile.close()
 
-    with open('results2.html', 'a') as myFile:
+    with open('results.html', 'a') as myFile:
         for i in range(len(page_reports)):
             myFile.write("""<h2>""" + titles[i] + """</h2><h2>h-point """ + str(find_h(preprocess(pages[i][1]))) +
                     '''<div id="page-tree''' + str(i) + '''">'''  + "</div>")
         myFile.close()
 
-    with open('results2.html', 'a') as myFile:
-        myFile.write('<div id="doughnut-i">'
-                     '<div id="i-box"></div>'
-                     '<div id="my-box"></div>'
-                     '<div id="we-box"></div>'
-                     '<div id="our-box"></div>'
-                     '</div>'
-                     '<div id="doughnut-y">'
-                     '<div id="you-box"></div>'
-                     '<div id="your-box"></div>'
-                     '</div>\n')
-        myFile.write('<div class="spacer"></div>')
-        # myFile.write('<footer>\n')
-        # myFile.write('<p>R<em>ePort</em> Bot | R.M. Omizo</p>')
-        # myFile.write('</footer>\n')
+    with open('results3.html', 'a') as myFile:
+
+        #myFile.write('<div class="spacer"></div>')
+        myFile.write('<footer>\n')
+        myFile.write('<p>R<em>ePort</em> Bot | R.M. Omizo</p>')
+        myFile.write('</footer>\n')
         myFile.write("""
         <script>
         var tree = """ + str(tree) + """
@@ -367,175 +227,9 @@ function position() {
       .style("top", function(d) { return d.y + "px"; })
       .style("width", function(d) { return Math.max(0, d.dx - 1) + "px"; })
       .style("height", function(d) { return Math.max(0, d.dy - 1) + "px"; });
-}
+}</script>""")
 
-	var wd = ($(window).width() * .8)/2.6;
-			var hd = ($(window).width() * .8)/2.6;
-
-			var idata = ['0.22', '0.63', '0.15'];
-			var outerRadius = wd / 2;
-
-			//Set innerRadius value to 0 for standard pie chart
-			var innerRadius = wd/3;
-
-			var arc = d3.svg.arc()
-					.innerRadius(innerRadius)
-					.outerRadius(outerRadius);
-
-			var pie = d3.layout.pie();
-
-			//Custom color range; replace hex codes in array to revise colors
-			//Colors will be selected in sequentially in current functions
-			var color = d3.scale.ordinal()
-			//i, my, we, our
-				.range(["#FF92E4 ", "#61CCCB ", "#FFD047", "#B23C7A"]);
-
-			//Create SVG element
-			var svg = d3.select("#doughnut-i")
-					.append("svg")
-					.attr("width", wd)
-					.attr("height", hd);
-
-			//Set up groups
-			var arcs = svg.selectAll("g.arc")
-				.data(pie(idata))
-				.enter()
-
-				.append("g")
-				.attr("class", "arc")
-
-				.attr("transform", "translate(" + outerRadius + "," + outerRadius + ")");
-
-			//Draw arc paths
-			arcs.append("path")
-
-			    .attr("fill", function(d,i) {
-			    	return color(i);
-			    })
-			    //Animated rendering
-			    .transition()
-			    .duration(500)
-  				.attrTween('d', function(d) {
-       				var i = d3.interpolate(d.startAngle, d.endAngle);
-       			return function(t) {
-           		d.endAngle = i(t);
-         		return arc(d);
-       				}
-       				});
-
-			//Labels
-			arcs.append("text")
-
-			    .attr("transform", function(d) {
-			    	return "translate(" + arc.centroid(d) + ")";
-			    })
-			    .attr("text-anchor", "middle")
-			    .style("z-index", 10)
-			    .attr("font-family", "Oxygen")
-			    .attr("fill", "#fff")
-			    .attr("font-size", 12)
-
-
-			    .text(function(d) {
-			    	if(d.value > 0) {
-			    	return d.value}
-			    	else { return }
-
-			    });
-
-        arcs.append("text")
-				.attr("x", 0)
-				.attr("y", 22)
-				.attr("text-anchor", "middle")
-			    .attr("font-family", "Oxygen")
-			    .attr("fill", "#000")
-			    .attr("font-size", 100)
-			    .text("%");
-
-
-//Width and height for doughnut
-			var we = ($(window).width() * .8)/2.6;
-			var he = ($(window).width() * .8)/2.6;
-
-			var ydata = [0.4, 0.6];
-
-			var outerRadiusY = we / 2;
-
-			//Set innerRadius value to 0 for standard pie chart
-			var innerRadiusY = we/3;
-
-			var arcY = d3.svg.arc()
-					.innerRadius(innerRadiusY)
-					.outerRadius(outerRadiusY);
-
-			var pieY = d3.layout.pie();
-
-			//Create SVG element
-			var svgY = d3.select("#doughnut-y")
-					.append("svg")
-					.attr("width", we)
-					.attr("height", he);
-
-			//Set up groups
-			var arcsY = svgY.selectAll("g.arcY")
-				.data(pieY(ydata))
-				.enter()
-				.append("g")
-				.attr("class", "arc")
-				.attr("transform", "translate(" + outerRadiusY + "," + outerRadiusY + ")");
-
-			//Draw arc paths
-			arcsY.append("path")
-			    .attr("fill", function(d,i) {
-			    	return color(i);
-			    })
-
-			    //Animated rendering
-			    .transition()
-			    .duration(500)
-  				.attrTween('d', function(d) {
-       				var i = d3.interpolate(d.startAngle, d.endAngle);
-       			return function(t) {
-           		d.endAngle = i(t);
-         		return arcY(d);
-       				}
-       				})
-
-       			//Non-animated rendering
-       			//.attr("d", arc)
-			   ;
-
-			//Labels
-			arcsY.append("text")
-			    .attr("transform", function(d) {
-			    	return "translate(" + arc.centroid(d) + ")";
-			    })
-			    .attr("text-anchor", "middle")
-			    .style("z-index", 10)
-			    .attr("font-family", "Oxygen")
-			    .attr("fill", "#fff")
-			    .attr("font-size", 12)
-			    .text(function(d) {
-			    	if(d.value > 0) {
-			    	return d.value}
-			    	else { return }
-			    });
-
-			//Percentage label
-			arcsY.append("text")
-				.attr("x", 0)
-				.attr("y", 22)
-				.attr("text-anchor", "middle")
-			    .attr("font-family", "Oxygen")
-			    .attr("fill", "#000")
-			    .attr("font-size", 100)
-			    .text("%");
-
-
-        </script> """)
-        myFile.close()
-
-    with open("results2.html", "a") as myFile:
+    with open("results.html", "a") as myFile:
         for index, p in enumerate(page_reports):
             myFile.write("""<script>
     div = d3.select(""" + '''"#page-tree''' + str(index) + '''"''' + """).append("div")
@@ -568,11 +262,9 @@ var node = div.datum(tree""" + str(index) +""").selectAll(".node")
     $(document).tooltip();
   });
 
-
-
         </script>""")
         myFile.close()
-    with open('results2.html', 'a') as myFile:
+    with open('results3.html', 'a') as myFile:
         myFile.write('</body>\n')
         myFile.write('</html>\n')
         myFile.close()
