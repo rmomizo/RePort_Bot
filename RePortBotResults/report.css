@@ -67,26 +67,30 @@ body {background:#ffffff; font-family: Century Gothic, Arial, sans-serif;}
 
 
 .syns {
-        
+       float:left;
         width:300px;
         height:75px;
         background:rgb(93, 178, 177);
 }
 
 .h-point {
-       
+        float:left;
         width:300px;
         height:75px;
         background:rgb(255, 233, 121);
 }
 
 .auto {
-      
+        float:left;
         width:300px;
         height:75px;
         background:rgb(98, 85, 155);
 }
 
 .legend p {
-        display:inline;
+        float:left;
+}
+
+.clearfix {
+        clear:both;
 }
