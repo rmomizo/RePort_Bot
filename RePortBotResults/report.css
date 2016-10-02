@@ -69,22 +69,25 @@ body {background:#ffffff; font-family: Century Gothic, Arial, sans-serif;}
 .syns {
        float:left;
         width:300px;
-        height:75px;
+        height:25px;
         background:rgb(93, 178, 177);
+        margin-bottom:1.5em;
 }
 
 .h-point {
         float:left;
         width:300px;
-        height:75px;
+        height:25px;
         background:rgb(255, 233, 121);
+         margin-bottom:1.5em;
 }
 
 .auto {
         float:left;
         width:300px;
-        height:75px;
+        height:25px;
         background:rgb(98, 85, 155);
+         margin-bottom:1.5em;
 }
 
 .legend p {
