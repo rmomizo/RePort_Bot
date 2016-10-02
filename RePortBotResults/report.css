@@ -92,6 +92,7 @@ body {background:#ffffff; font-family: Century Gothic, Arial, sans-serif;}
 
 .legend p {
         float:left;
+        margin-bottom:1.5em;
         margin-left: 1em;
         font-weight:bold;
         vertical-align:center;
