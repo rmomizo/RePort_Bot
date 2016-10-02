@@ -64,3 +64,10 @@ body {background:#ffffff; font-family: Century Gothic, Arial, sans-serif;}
 #basic-stats {
         margin-bottom:5em;
 }
+
+
+.syns {
+        width:300px;
+        height:75px;
+        background:rgb(93, 178, 177);
+}
