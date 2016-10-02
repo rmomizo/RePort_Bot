@@ -67,22 +67,24 @@ body {background:#ffffff; font-family: Century Gothic, Arial, sans-serif;}
 
 
 .syns {
+        display:inline;
         width:300px;
         height:75px;
         background:rgb(93, 178, 177);
 }
 
 .h-point {
+        display:inline;
         width:300px;
         height:75px;
         background:rgb(255, 233, 121);
 }
 
 .auto {
-
+        display:inline;
         width:300px;
         height:75px;
-        background:rgb(93, 178, 177);
+        background:rgb(98, 85, 155);
 }
 
 .legend p {
