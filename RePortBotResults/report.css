@@ -71,3 +71,20 @@ body {background:#ffffff; font-family: Century Gothic, Arial, sans-serif;}
         height:75px;
         background:rgb(93, 178, 177);
 }
+
+.h-point {
+        width:300px;
+        height:75px;
+        background:rgb(255, 233, 121);
+}
+
+.auto {
+
+        width:300px;
+        height:75px;
+        background:rgb(93, 178, 177);
+}
+
+.legend p {
+        display:inline;
+}
