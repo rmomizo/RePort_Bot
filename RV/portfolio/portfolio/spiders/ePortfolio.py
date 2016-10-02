@@ -160,7 +160,7 @@ def make_report(filename):
         myFile.write('<body>\n')
         myFile.write('<div id="container">\n')
         myFile.write('<header>\n')
-        myFile.write('<h1>R<em>ePort</em> Results:' + str(start_url) + '</h1></header>')
+        myFile.write('<h1>RePort_Bot Results:' + str(start_url) + '</h1></header>')
 
         myFile.write("""
         <div id="basic-stats">
@@ -168,7 +168,20 @@ def make_report(filename):
 <h3>Portfolio Word Count: """ + pwc + """</h3>
 <h3>Portfolio Sentence Count: """ + psc + """</h3>
 <h3>Average Word Count Per Page: """ + awc + """</h3>
-</div>""")
+</div>
+<div class="legend">
+ 
+            <h3>Treemap Legend</h3>
+  <div class="syns"></div><p>Synsemantic</p>
+  <div class="clearfix"</div>
+    <div class="h-point"></div><p>h Point</p>
+   <div class="clearfix"</div>
+   <div class="auto"></div><p>Autosemantic</p>
+   <div class="clearfix"</div>
+          </div>
+<div class="clearfix"</div>
+
+""")
 
 
         myFile.write('<h2>h-Point for total pages ' + str(start_url) + ' ' + str((t_h[0].encode('ascii',
